@@ -3,26 +3,26 @@ import urllib.request
 
 #http://www.weather-forecast.com/locations/Helsinki/forecasts/latest
 
-city = input("Enter your city for 1-3 days forecast: ")
-url = "http://www.weather-forecast.com/locations/" + city + "/forecasts/latest"
 
-data = urllib.request.urlopen(url).read()
+try:
+    city = input("Enter your city for 1-3 days forecast: ")
+    url = "http://www.weather-forecast.com/locations/" + city + "/forecasts/latest"
 
-data1 = data.decode("utf-8")
+    data = urllib.request.urlopen(url).read()
+    data1 = data.decode("utf-8")
 
 
-m = re.search('span class="phrase">', data1)
+    m = re.search('span class="phrase">', data1)
+    start = m.end()
+    end = start + 400
 
-start = m.end()
+    newString = data1[start:end]
+    m = re.search("</span>", newString)
+    end = m.start()
 
-end = start + 400
+    final = newString[0:end]
 
-newString = data1[start:end]
+    print(final)
 
-m = re.search("</span>", newString)
-
-end = m.start()
-
-final = newString[0:end]
-
-print(final)
+except:
+    print("Can't find " + city + ", please try again")
