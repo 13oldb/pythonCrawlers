@@ -1,12 +1,30 @@
 import re
 import urllib.request
+import sys
+import time
+import datetime
+
+#function to import strings into a log
+def redirect_to_file(text):
+	original = sys.stdout
+	sys.stdout = open('log.txt','a')
+	print(text)
+	sys.stdout = original
+
+#function to stamp time for logging
+def timestamper():
+    ts = time.time()
+    timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+    redirect_to_file(timestamp + "\n")
 
 try:
+    #stamp the time for log
+    timestamper()
+
     url_btc = "https://coinmarketcap.com/currencies/bitcoin" #Bitcoin
     #Open url and decode utf8
     data_btc = urllib.request.urlopen(url_btc).read()
     data1_btc = data_btc.decode("utf-8")
-
     m = re.search('id="quote_price">', data1_btc)
     start = m.end()
     end = start + 15
@@ -18,7 +36,7 @@ try:
             newString = newString.replace(char,"")
         #Simply print out price
     print("Current Bitcoin price:\n" + newString)
-
+    redirect_to_file("BTC " + newString)
     url_eth = "https://coinmarketcap.com/currencies/ethereum" #Ethereum
     #Open url and decode utf8
     data_eth = urllib.request.urlopen(url_eth).read()
@@ -35,7 +53,7 @@ try:
             newString = newString.replace(char,"")
         #Simply print out price
     print("Current Ethereum price:\n" + newString)
-
+    redirect_to_file("ETH " + newString)
     url_pivx = "https://coinmarketcap.com/currencies/pivx" #Pivx
     #Open url and decode utf8
     data_pivx = urllib.request.urlopen(url_pivx).read()
@@ -52,7 +70,7 @@ try:
             newString = newString.replace(char,"")
         #Simply print out price
     print("Current PIVX price:\n" + newString)
-
+    redirect_to_file("PIVX " + newString)
     url_dash = "https://coinmarketcap.com/currencies/dash" #Dash
     #Open url and decode utf8
     data_dash = urllib.request.urlopen(url_dash).read()
@@ -69,7 +87,7 @@ try:
             newString = newString.replace(char,"")
         #Simply print out price
     print("Current Dash price:\n" + newString)
-
+    redirect_to_file("Dash " + newString)
     url_dcr = "https://coinmarketcap.com/currencies/decred" #Decred
     #Open url and decode utf8
     data_dcr = urllib.request.urlopen(url_dcr).read()
@@ -86,7 +104,7 @@ try:
             newString = newString.replace(char,"")
         #Simply print out price
     print("Current Decred price:\n" + newString)
-
+    redirect_to_file("Decred " + newString)
     url_nxs = "https://coinmarketcap.com/currencies/nexus" #Nexus
     #Open url and decode utf8
     data_nxs = urllib.request.urlopen(url_nxs).read()
@@ -103,7 +121,7 @@ try:
             newString = newString.replace(char,"")
         #Simply print out price
     print("Current Nexus price:\n" + newString)
-
+    redirect_to_file("NXS " + newString)
     url_storj = "https://coinmarketcap.com/currencies/storj" #Storj
     #Open url and decode utf8
     data_storj = urllib.request.urlopen(url_storj).read()
@@ -120,7 +138,7 @@ try:
             newString = newString.replace(char,"")
         #Simply print out price
     print("Current Storj price:\n" + newString)
-
+    redirect_to_file("Storj " + newString)
     url_pay = "https://coinmarketcap.com/currencies/tenx" #Tenx
     #Open url and decode utf8
     data_pay = urllib.request.urlopen(url_pay).read()
@@ -137,5 +155,8 @@ try:
             newString = newString.replace(char,"")
         #Simply print out price
     print("Current TenX price:\n" + newString)
+    redirect_to_file("TenX " + newString)
+    #Finishes "neatly" the logging
+    redirect_to_file("\n---End of search---")
 except:
     print("Something went wrong bitch, see http://downforeveryoneorjustme/coinmarketcap.com")
